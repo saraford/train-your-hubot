@@ -6,18 +6,20 @@ var hubot_spawn = undefined;
 const wireUpButtons = () => {
 
   let $closeButton = $('#close-window');
-  let $pingButton = $('#ping-button');
+  let $enterButton = $('#enter-button');
+  let $hubotInput = $('#hubot-input');
 
   $closeButton.on('click', function() {
     ipcRenderer.send('close-app');
   });
 
-  $pingButton.on('click', function() {
-    console.log("clicking ping");
-    hubot_spawn.stdin.write('pong\n');
+  $enterButton.on('click', function() {
+    var request = $('#hubot-input').val() + '\n';
+    console.log("sending ", request);
 
-    // var request = createRequest();
-    // askHubot(request);
+//    hubot_spawn.stdin.write(request);
+    hubot_spawn.stdin.write('help\n');
+
   });
 }
 
@@ -25,21 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
   wireUpButtons();
   spawnHubot();
 });
-
-function createRequest() {
-  var request = new Request("http://localhost:8082/hubot/ping", {
-    method: 'GET'
-  });
-
-  return request
-}
-
-function askHubot(request) {
-  window.fetch(request).then(function(response) {return response.text();})
-    .then(function(text) {
-      console.log(text);
-    });
-}
 
 var all_responses = undefined;
 function spawnHubot() {

@@ -13,7 +13,7 @@ h1 {
   left: 50px;
 }
 
-#ping-button {
+#enter-button {
   position: absolute;
   transform: translateX(-50%);
   font-size: 16px;
