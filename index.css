@@ -1,0 +1,33 @@
+body {
+  font-family: system, -apple-system, '.SFNSText-Regular', 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
+  color: #fff;
+  background-color: #8aba87;
+  text-align: center;
+}
+
+h1 {
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+
+#ping-button {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 16px;
+  left: 50%;
+  bottom: 80px;
+}
+
+#close-window {
+  color:#fff;
+  opacity: 0.7;
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16px;
+  text-decoration: none;
+}
