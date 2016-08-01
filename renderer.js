@@ -23,7 +23,6 @@ const wireUpButtons = () => {
 
 document.addEventListener('DOMContentLoaded', function() {
   wireUpButtons();
-
   spawnHubot();
 });
 
@@ -42,6 +41,7 @@ function askHubot(request) {
     });
 }
 
+var all_responses = undefined;
 function spawnHubot() {
 
   const hubot_command = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot/bin/hubot";
@@ -50,6 +50,8 @@ function spawnHubot() {
 
   hubot_spawn.stdout.on('data', (data) => {
     var hubot_response = data.toString().replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+    all_responses = all_responses + " " + hubot_response;
+    $('#hubot-output').text(all_responses);
     console.log("stdout: " + hubot_response);
   });
 

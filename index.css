@@ -9,7 +9,7 @@ h1 {
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 50px;
+  top: 5px;
   left: 50px;
 }
 
@@ -30,4 +30,41 @@ h1 {
   transform: translateX(-50%);
   font-size: 16px;
   text-decoration: none;
+}
+
+.content {
+  height: 100%;
+  display: flex;
+}
+
+#hubot-output {
+  text-align: left;
+  overflow: scroll;
+  font-size: 1.5em;
+  border: none;
+  background-color: rgb(238, 252, 250);
+  font-family: monospace;
+  white-space: pre;
+  position:absolute;
+  color: black;
+  top:50px;
+  left:5px;
+  width:100%;
+  height:200px;
+}
+
+#hubot-input {
+  text-align: left;
+  overflow: scroll;
+  font-size: 1.5em;
+  border: none;
+  background-color: rgb(238, 252, 250);
+  font-family: monospace;
+  white-space: pre;
+  position:absolute;
+  color: black;
+  bottom:5px;
+  left:5px;
+  width:100%;
+  height:50px;
 }
