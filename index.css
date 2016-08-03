@@ -13,14 +13,6 @@ h1 {
   left: 50px;
 }
 
-#enter-button {
-  position: absolute;
-  transform: translateX(-50%);
-  font-size: 16px;
-  left: 50%;
-  bottom: 80px;
-}
-
 .content {
 
 }

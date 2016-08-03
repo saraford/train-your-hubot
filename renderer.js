@@ -12,14 +12,6 @@ const wireUpButtons = () => {
   let $enterButton = $('#enter-button');
   let $hubotInput = $('#hubot-input');
 
-  $enterButton.on('click', function() {
-
-    //    hubot_spawn.stdin.write('help\n');
-    //    hubot_spawn.stdin.write('myhubot2 ping\n');
-
-
-  });
-
   $hubotInput.keyup(function (e) {
     if (e.keyCode == 13) {
       var request = $('#hubot-input').val() + '\n';
