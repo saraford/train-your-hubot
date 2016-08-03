@@ -9,28 +9,22 @@ var hubot_spawn = undefined;
 
 const wireUpButtons = () => {
 
-  let $sendButton = $('#send-button');
-  let $hubotInput = $('#hubot-input');
+  let sendButton = $('#send-button');
+  let hubotInput = $('#hubot-input');
 
-  $sendButton.on('click', function() {
-    var request = $hubotInput.val() + '\n';
+  sendButton.on('click', function() {
+    var request = hubotInput.val() + '\n';
 
     console.log("sending ", request);
     hubot_spawn.stdin.write(request);
 
     // clear input for next command
-    $(this).val('');
+    $(hubotInput).val('');
   });
 
-  $hubotInput.keyup(function (e) {
+  hubotInput.keyup(function (e) {
     if (e.keyCode == 13) {
-      var request = $hubotInput.val() + '\n';
-
-      console.log("sending ", request);
-      hubot_spawn.stdin.write(request);
-
-      // clear input for next command
-      $(this).val('');
+      sendButton.click();
     }
 });
 }
