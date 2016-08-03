@@ -1,7 +1,6 @@
 body {
-  font-family: system, -apple-system, '.SFNSText-Regular', 'SF UI Text', 'Lucida Grande', 'Segoe UI', Ubuntu, Cantarell, sans-serif;
+  font-family:BlinkMacSystemFont, "Lucida Grande", "Segoe UI", Ubuntu;
   color: #fff;
-  background-color: #8aba87;
   text-align: center;
 }
 
@@ -9,20 +8,33 @@ h1 {
   padding: 0;
   margin: 0;
   position: absolute;
-  top: 5px;
+  top: 10px;
+  font-size: 21px;
+  color: rgb(60, 100, 195);
+  font-weight: 600;
+  line-height: 30px;
 }
 
 .content {
 
 }
 
-#input-area {
+#bottom-section {
   position: absolute;
-  bottom: 20px;
-  left: 5px;
+  bottom: 0px;
+  left: 0px;
+  background-color: rgb(245, 245, 245);
   width: 100%;
-  height: 50px;
+  height: 120px;
+}
+
+#input-area {
+  font-size: 1.5em;
+  overflow: scroll;
+  border: none;
   text-align: left;
+  margin: 5px;
+  font-family: monospace;
 }
 
 #hubot-output {
@@ -31,7 +43,6 @@ h1 {
   overflow: scroll;
   font-size: 1.5em;
   border: none;
-  background-color: rgb(238, 252, 250);
   font-family: monospace;
   white-space: pre-wrap;
   position:absolute;
@@ -43,23 +54,25 @@ h1 {
 }
 
 #hint {
-  bottom: 80px;
-  position: absolute;
+  text-align: left;
   font-style: italic;
   opacity: 0.8;
+  margin-left: 20px;
+  margin-top: 20px;
+  color: rgb(56, 56, 56);
 }
 
 #hubot-input {
-  width: 80%;
-  font-size: 1.5em;
+  font-size: 1em;
   overflow: scroll;
   border: none;
-  background-color: rgb(238, 252, 250);
+  text-align: left;
+  margin: 10px;
+  margin-right: 0px;
   font-family: monospace;
-  height: 100%;
+  width: 82%;
 }
 
 #send-button {
-  font-size: 1em;
-  height: 100%;
+  font-size: 0.5em;
 }
