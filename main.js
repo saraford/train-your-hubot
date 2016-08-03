@@ -7,7 +7,7 @@ var mainWindow = null;
 app.on('ready', function() {
 
     mainWindow = new BrowserWindow({
-        height: 700,
+        height: 600,
         width: 400
     });
 

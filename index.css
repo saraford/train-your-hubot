@@ -10,7 +10,6 @@ h1 {
   margin: 0;
   position: absolute;
   top: 5px;
-  left: 50px;
 }
 
 .content {
@@ -40,7 +39,14 @@ h1 {
   top:50px;
   left:5px;
   right:5px;
-  height:200px;
+  height:70%;
+}
+
+#hint {
+  bottom: 80px;
+  position: absolute;
+  font-style: italic;
+  opacity: 0.8;
 }
 
 #hubot-input {
