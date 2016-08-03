@@ -14,10 +14,14 @@ const wireUpButtons = () => {
 
   $hubotInput.keyup(function (e) {
     if (e.keyCode == 13) {
-      var request = $('#hubot-input').val() + '\n';
-      console.log("sending ", request);
+      var request = $hubotInput.val() + '\n';
 
+      console.log("sending ", request);
       hubot_spawn.stdin.write(request);
+
+      // clear input for next command
+      $(this).val('');
+      $(this).removeAttr('placeholder');
     }
 });
 }
