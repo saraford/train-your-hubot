@@ -1,4 +1,8 @@
 'use strict'
+
+const hubot_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot/bin/hubot";
+const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot";
+
 const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
 var hubot_spawn = undefined;
@@ -30,8 +34,6 @@ var all_responses = undefined;
 function spawnHubot() {
 
 //const hubot = spawn(hubot_command, {cwd: '/Users/path/to/hubot', env: process.env});
-  const hubot_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot2/bin/hubot";
-  const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot2";
   const spawn = require('child_process').spawn;
 
   //  hubot_spawn = spawn(hubot_command);
