@@ -17,12 +17,17 @@ const wireUpButtons = () => {
     //    hubot_spawn.stdin.write('help\n');
     //    hubot_spawn.stdin.write('myhubot2 ping\n');
 
-    var request = $('#hubot-input').val() + '\n';
-    console.log("sending ", request);
-
-    hubot_spawn.stdin.write(request);
 
   });
+
+  $hubotInput.keyup(function (e) {
+    if (e.keyCode == 13) {
+      var request = $('#hubot-input').val() + '\n';
+      console.log("sending ", request);
+
+      hubot_spawn.stdin.write(request);
+    }
+});
 }
 
 document.addEventListener('DOMContentLoaded', function() {
