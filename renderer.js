@@ -47,7 +47,9 @@ function spawnHubot() {
     if (data.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
       hubotLoaded = true;
       var placeholder = $('#hubot-output').text();
-      $('#hubot-output').text(placeholder + "\nmyhubot ready");
+      var initial_output = placeholder + "\nmyhubot ready";
+      $('#hubot-output').text(initial_output);
+      raw_output = initial_output + "\n";
       return;
     }
 
