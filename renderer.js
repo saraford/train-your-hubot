@@ -9,8 +9,18 @@ var hubot_spawn = undefined;
 
 const wireUpButtons = () => {
 
-  let $enterButton = $('#enter-button');
+  let $sendButton = $('#send-button');
   let $hubotInput = $('#hubot-input');
+
+  $sendButton.on('click', function() {
+    var request = $hubotInput.val() + '\n';
+
+    console.log("sending ", request);
+    hubot_spawn.stdin.write(request);
+
+    // clear input for next command
+    $(this).val('');
+  });
 
   $hubotInput.keyup(function (e) {
     if (e.keyCode == 13) {
@@ -21,7 +31,6 @@ const wireUpButtons = () => {
 
       // clear input for next command
       $(this).val('');
-      $(this).removeAttr('placeholder');
     }
 });
 }

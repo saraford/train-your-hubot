@@ -17,6 +17,15 @@ h1 {
 
 }
 
+#input-area {
+  position: absolute;
+  bottom: 20px;
+  left: 5px;
+  width: 100%;
+  height: 50px;
+  text-align: left;
+}
+
 #hubot-output {
   text-align: left;
   flex-grow: 1;
@@ -35,16 +44,16 @@ h1 {
 }
 
 #hubot-input {
-  text-align: left;
-  overflow: scroll;
+  width: 80%;
   font-size: 1.5em;
+  overflow: scroll;
   border: none;
   background-color: rgb(238, 252, 250);
   font-family: monospace;
-  position:absolute;
-  color: black;
-  bottom:5px;
-  left:5px;
-  width:100%;
-  height:50px;
+  height: 100%;
+}
+
+#send-button {
+  font-size: 1em;
+  height: 100%;
 }
