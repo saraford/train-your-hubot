@@ -44,14 +44,16 @@ function spawnHubot() {
   var raw_output = "";
   hubot_spawn.stdout.on('data', (data) => {
 
-    // if (data.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
-    //   hubotLoaded = true;
-    //   $('#hubot-output').text("myhubot ready");
-    // }
+    if (data.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
+      hubotLoaded = true;
+      var placeholder = $('#hubot-output').text();
+      $('#hubot-output').text(placeholder + "\nmyhubot ready");
+      return;
+    }
 
-    // if (!hubotLoaded) {
-    //   return;
-    // }
+    if (!hubotLoaded) {
+      return;
+    }
 
     var hubot_response = data.toString().replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
     raw_output += hubot_response;
