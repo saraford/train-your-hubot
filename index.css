@@ -33,6 +33,7 @@ h1 {
   border: none;
   background-color: rgb(238, 252, 250);
   font-family: monospace;
+  white-space: pre-wrap;
   position:absolute;
   color: black;
   top:50px;
