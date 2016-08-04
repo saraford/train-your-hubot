@@ -84,11 +84,17 @@ h1 {
   margin-bottom: 5px;
 }
 
+.output-row {
+  padding-top: 10px;
+}
+
 .hubot-message {
   white-space: pre-wrap;
+  padding-top: 10px;
 }
 
 .hubot-avatar {
+  vertical-align: top;
   display: table-cell;
   width: 70px;
 }
