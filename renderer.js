@@ -40,10 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function spawnHubot() {
 
+  let hubotOutputWindow = $('#hubot-output');
+  hubotOutputWindow.append("<div class='hubot-msg'>loading myhubot</div>");
+
   const spawn = require('child_process').spawn;
   hubot_spawn = spawn(hubot_path, {cwd: hubot_cwd_path, env: process.env});
-
-  let hubotOutputWindow = $('#hubot-output');
 
   var hubotLoaded = false;
   var current_response = "";
