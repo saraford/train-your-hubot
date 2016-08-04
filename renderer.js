@@ -6,7 +6,7 @@ const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/
 const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
 var hubot_spawn = undefined;
-var is_response_next = false;
+var is_hubot_response_we_want = false;
 
 const wireUpButtons = () => {
 
@@ -14,7 +14,7 @@ const wireUpButtons = () => {
   let hubotInput = $('#hubot-input');
 
   sendButton.on('click', function() {
-    is_response_next = false;
+    is_hubot_response_we_want = false;
 
     var request = hubotInput.val() + '\n';
 
@@ -47,11 +47,30 @@ function spawnHubot() {
 
   var hubotLoaded = false;
   var current_response = "";
+
   hubot_spawn.stdout.on('data', (data) => {
+
+    /*  there are two reasons why we have to parse this text
+        1. hubot echos the commands back for some reasons
+            e.g. if you send "hubot ping" he comes back w "hubot ping hubot> PONG"
+            I don't know why
+        2. these messages are async, so a simple "myhubot ping myhubot> PONG" could be
+            all in one event call or across 7+ different event calls, e.g. letter by letter
+            aka good times
+        so we check...
+          1. is hubot loaded? if not, keep parsing text
+          2. add up all the current_response (if across multiple events) until
+              the "myhubot>" prhase is found
+          3. we want everything "myhubot>". this could be all in one event/line
+              or across multiple events. We keep parsing...
+          4. the only way we know we're done getting response from hubot from #3
+              is when the user sends the next message to hubot.
+              when is_hubot_response_we_want true, we know we're still parsing #3
+              if false (set in the "send hubot message" event), we go back to #2
+    */
 
     if (data.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
       hubotLoaded = true;
-
       hubotOutputWindow.append("<div class='hubot-msg'>myhubot ready</div>");
       return;
     }
@@ -70,7 +89,7 @@ function spawnHubot() {
 
     // the response we want comes after the current "myhubot>" response
     if (current_response.includes("myhubot>")) {
-      is_response_next = true;
+      is_hubot_response_we_want = true;
 
       // the real hubot response might have come with this current_response
       // e.g. "myhubot> PONG" instead of "PONG" on a newline
@@ -106,7 +125,7 @@ function spawnHubot() {
 
     }
 
-    if (is_response_next) {
+    if (is_hubot_response_we_want) {
       console.log("This is next response " + current_response);
 
       // prep found text and add
