@@ -50,6 +50,10 @@ function spawnHubot() {
 
   hubot_spawn.stdout.on('data', (data) => {
 
+    // the async response contains a lot of noise
+    var hubot_response = data.toString().replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+    console.log("stdout: " + hubot_response);
+
     /*  there are two reasons why we have to parse this text
         1. hubot echos the commands back for some reasons
             e.g. if you send "hubot ping" he comes back w "hubot ping hubot> PONG"
@@ -69,7 +73,7 @@ function spawnHubot() {
               if false (set in the "send hubot message" event), we go back to #2
     */
 
-    if (data.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
+    if (hubot_response.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
       hubotLoaded = true;
       hubotOutputWindow.append("<div class='hubot-msg'>myhubot ready</div>");
       return;
@@ -78,10 +82,6 @@ function spawnHubot() {
     if (!hubotLoaded) {
       return;
     }
-
-    // the async response contains a lot of noise
-    var hubot_response = data.toString().replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
-    console.log("stdout: " + hubot_response);
 
     // because hubot is echo'ing commands back, we have to wait until we get "myhubot2>"
     // to avoid displaying that text
