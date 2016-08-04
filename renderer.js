@@ -43,15 +43,16 @@ function spawnHubot() {
   const spawn = require('child_process').spawn;
   hubot_spawn = spawn(hubot_path, {cwd: hubot_cwd_path, env: process.env});
 
+  let hubotOutput = $('#hubot-output');
+
   var hubotLoaded = false;
-  var hubot_history = "";
   var current_raw_response = "";
   hubot_spawn.stdout.on('data', (data) => {
 
     if (data.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
       hubotLoaded = true;
 
-      $('#hubot-output').append("<div class='hubot-msg'>myhubot ready</div>");
+      hubotOutput.append("<div class='hubot-msg'>myhubot ready</div>");
       return;
     }
 
@@ -83,29 +84,22 @@ function spawnHubot() {
       if (start_of_response.length != 0) {
         console.log("Yep response was on same line: " + start_of_response);
 
-        // prep found text
-        var prepared_response = start_of_response.trim();
-        prepared_response = "\n" + prepared_response;
-        // if (prepared_response.indexOf('\n') == -1) {
-        //   console.log("need to add a newline");
-        //   prepared_response = "\n" + prepared_response;
-        // }
-
-        $('#hubot-output').append("<div class='hubot-msg'>" + prepared_response + "</div>");
-        // hubot_history += prepared_response;
-        // $('#hubot-output').text(hubot_history);
-        console.log("stdout: " + prepared_response);
+        // trim whitespace and add
+        hubotOutput.append("<div class='hubot-msg'>" + start_of_response.trim() + "</div>");
 
         // to keep the latest output visible
-        $('#hubot-output').stop().animate({
-          scrollTop: $('#hubot-output')[0].scrollHeight
+        hubotOutput.stop().animate({
+          scrollTop: hubotOutput[0].scrollHeight
         }, 200);
 
+        // clear current response for next time
         current_raw_response = "";
         return;
 
       } else {
-        // just return and continue on next stdout.on event
+
+        // hubot just echo'ing back our previous text
+        // just ignore this stdout.on event and continue to next event
         current_raw_response = "";
         return;
       }
@@ -115,26 +109,16 @@ function spawnHubot() {
     if (is_response_next) {
       console.log("This is next response " + current_raw_response);
 
-      // prep found text
-      var prepared_response = hubot_response.trim();
-      prepared_response = "\n" + prepared_response;
-
-      // if (prepared_response.indexOf('\n') == -1) {
-      //   console.log("need to add a newline");
-      //   prepared_response = "\n" + prepared_response;
-      // }
-
-      $('#hubot-output').append("<div class='hubot-msg'>" + prepared_response + "</div>");
-      // hubot_history += prepared_response;
-      // $('#hubot-output').text(hubot_history);
+      // prep found text and add
+      hubotOutput.append("<div class='hubot-msg'>" + hubot_response.trim() + "</div>");
 
       // to keep the latest output visible
-      $('#hubot-output').stop().animate({
-        scrollTop: $('#hubot-output')[0].scrollHeight
+      hubotOutput.stop().animate({
+        scrollTop: hubotOutput[0].scrollHeight
       }, 200);
 
       current_raw_response = "";
-      console.log("stdout: " + prepared_response);
+      console.log("stdout: " + hubot_response.trim());
     }
 
   });
