@@ -8,11 +8,11 @@ app.on('ready', function() {
 
     mainWindow = new BrowserWindow({
         height: 600,
-        width: 400
+        width: 700
     });
 
     mainWindow.loadURL('file://' + __dirname + '/index.html');
-    //mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
 });
 

@@ -50,10 +50,8 @@ function spawnHubot() {
 
     if (data.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
       hubotLoaded = true;
-      var placeholder = $('#hubot-output').text();
-      var initial_output = placeholder + "\nmyhubot ready";
-      $('#hubot-output').text(initial_output);
-      hubot_history = initial_output + "\n";
+
+      $('#hubot-output').append("<div class='hubot-msg'>myhubot ready</div>");
       return;
     }
 
@@ -63,12 +61,11 @@ function spawnHubot() {
 
     // the async response contains a lot of noise
     var hubot_response = data.toString().replace(/[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+    console.log("stdout: " + hubot_response);
 
     // because hubot is echo'ing commands back, we have to wait until we get "myhubot2>"
     // to avoid displaying that text
     current_raw_response += hubot_response;
-
-    console.log("current_raw_response: " + current_raw_response);
 
     // the response we want comes after the current "myhubot>" response
     if (current_raw_response.includes("myhubot>")) {
@@ -94,8 +91,9 @@ function spawnHubot() {
         //   prepared_response = "\n" + prepared_response;
         // }
 
-        hubot_history += prepared_response;
-        $('#hubot-output').text(hubot_history);
+        $('#hubot-output').append("<div class='hubot-msg'>" + prepared_response + "</div>");
+        // hubot_history += prepared_response;
+        // $('#hubot-output').text(hubot_history);
         console.log("stdout: " + prepared_response);
 
         // to keep the latest output visible
@@ -126,8 +124,9 @@ function spawnHubot() {
       //   prepared_response = "\n" + prepared_response;
       // }
 
-      hubot_history += prepared_response;
-      $('#hubot-output').text(hubot_history);
+      $('#hubot-output').append("<div class='hubot-msg'>" + prepared_response + "</div>");
+      // hubot_history += prepared_response;
+      // $('#hubot-output').text(hubot_history);
 
       // to keep the latest output visible
       $('#hubot-output').stop().animate({
