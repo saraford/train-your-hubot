@@ -91,6 +91,7 @@ h1 {
 .hubot-message {
   white-space: pre-wrap;
   padding-top: 10px;
+  display: table-cell;
 }
 
 .hubot-avatar {
@@ -99,6 +100,14 @@ h1 {
   width: 70px;
 }
 
-.hubot-message {
+.user-message {
+  white-space: pre-wrap;
+  padding-top: 10px;
   display: table-cell;
+}
+
+.user-avatar {
+  vertical-align: top;
+  display: table-cell;
+  width: 70px;
 }

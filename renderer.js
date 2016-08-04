@@ -7,6 +7,7 @@ const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
 var hubot_spawn = undefined;
 var is_hubot_response_we_want = false;
+let hubotOutputWindow = undefined;
 
 const wireUpButtons = () => {
 
@@ -21,7 +22,9 @@ const wireUpButtons = () => {
     console.log("sending ", request);
     hubot_spawn.stdin.write(request);
 
-    // clear input for next command
+    updateWindowWithUserMessage(request);
+
+    // clear input window for next command
     $(hubotInput).val('');
 
   });
@@ -40,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function spawnHubot() {
 
-  let hubotOutputWindow = $('#hubot-output');
+  hubotOutputWindow = $('#hubot-output');
   hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>hubot loading...</div></div>");
 
   const spawn = require('child_process').spawn;
@@ -152,4 +155,8 @@ function spawnHubot() {
   hubot_spawn.on('close', (code) => {
     console.log(`child process exited with code ${code}`);
   });
+}
+
+function updateWindowWithUserMessage(request) {
+  hubotOutputWindow.append("<div class='output-row'><div class='user-avatar'><img src='user.png'/></div><div class='user-message'>" + request + "</div></div>");
 }
