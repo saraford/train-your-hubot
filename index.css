@@ -84,8 +84,8 @@ h1 {
   margin-bottom: 5px;
 }
 
-.output-row {
-
+.hubot-message {
+  white-space: pre-wrap;
 }
 
 .hubot-avatar {

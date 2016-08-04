@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function spawnHubot() {
 
   let hubotOutputWindow = $('#hubot-output');
-  hubotOutputWindow.append("<div class='hubot-msg'>loading myhubot</div>");
+  hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>hubot loading...</div></div>");
 
   const spawn = require('child_process').spawn;
   hubot_spawn = spawn(hubot_path, {cwd: hubot_cwd_path, env: process.env});
@@ -76,7 +76,7 @@ function spawnHubot() {
 
     if (hubot_response.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
       hubotLoaded = true;
-      hubotOutputWindow.append("<div class='hubot-msg'>myhubot ready</div>");
+      hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>hubot ready</div></div>");
       return;
     }
 
@@ -105,7 +105,8 @@ function spawnHubot() {
         console.log("Yep response was on same line: " + start_of_response);
 
         // trim whitespace and add
-        hubotOutputWindow.append("<div class='hubot-msg'>" + start_of_response.trim() + "</div>");
+//        hubotOutputWindow.append("<div class='hubot-msg'>" + start_of_response.trim() + "</div>");
+        hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + start_of_response.trim() + "</div></div>");
 
         // to keep the latest output visible
         hubotOutputWindow.stop().animate({
@@ -130,7 +131,8 @@ function spawnHubot() {
       console.log("This is next response " + current_response);
 
       // prep found text and add
-      hubotOutputWindow.append("<div class='hubot-msg'>" + hubot_response.trim() + "</div>");
+        hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + hubot_response.trim() + "</div></div>");
+//      hubotOutputWindow.append("<div class='hubot-msg'>" + hubot_response.trim() + "</div>");
 
       // to keep the latest output visible
       hubotOutputWindow.stop().animate({
