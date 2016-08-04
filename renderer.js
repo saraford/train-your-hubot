@@ -83,8 +83,6 @@ function spawnHubot() {
       hubotLoaded = true;
 
       updateWindowWithHubotMessage("hubot ready");
-      // hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>hubot ready</div></div>");
-      // scrollDown();
       return;
     }
 
@@ -114,8 +112,6 @@ function spawnHubot() {
 
         // trim whitespace and add
         updateWindowWithHubotMessage(start_of_response);
-        // hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + start_of_response.trim() + "</div></div>");
-        // scrollDown()
 
         // clear current response for next time
         current_response = "";
