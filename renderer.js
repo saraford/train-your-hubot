@@ -15,6 +15,8 @@ const wireUpButtons = () => {
   let hubotInput = $('#hubot-input');
 
   sendButton.on('click', function() {
+
+    // if user is sending more requests, we're done listening async to hubot
     is_hubot_response_we_want = false;
 
     var request = hubotInput.val() + '\n';
@@ -79,8 +81,10 @@ function spawnHubot() {
 
     if (hubot_response.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
       hubotLoaded = true;
-      hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>hubot ready</div></div>");
-      scrollDown();
+
+      updateWindowWithHubotMessage("hubot ready");
+      // hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>hubot ready</div></div>");
+      // scrollDown();
       return;
     }
 
@@ -109,8 +113,9 @@ function spawnHubot() {
         console.log("Yep response was on same line: " + start_of_response);
 
         // trim whitespace and add
-        hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + start_of_response.trim() + "</div></div>");
-        scrollDown()
+        updateWindowWithHubotMessage(start_of_response);
+        // hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + start_of_response.trim() + "</div></div>");
+        // scrollDown()
 
         // clear current response for next time
         current_response = "";
@@ -129,19 +134,9 @@ function spawnHubot() {
     if (is_hubot_response_we_want) {
       console.log("This is next response " + current_response);
 
-      current_response = current_response.trim();
-
-      // only supporting single .jpg responses right now
-      if (current_response.endsWith(".jpg")) {
-        hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'><img src='" + current_response + "'/></div></div>");
-      } else {
-        hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + current_response + "</div></div>");
-      }
-
-      scrollDown();
+      updateWindowWithHubotMessage(current_response);
 
       current_response = "";
-      console.log("stdout: " + current_response);
     }
 
   });
@@ -155,14 +150,29 @@ function spawnHubot() {
   });
 }
 
-function scrollDown() {
-  // to keep the latest output visible
-  hubotOutputWindow.stop().animate({
-    scrollTop: hubotOutputWindow[0].scrollHeight
-  }, 200);
+
+function updateWindowWithHubotMessage(response) {
+
+  response = response.trim();
+
+  // only supporting single .jpg responses right now
+  if (response.endsWith(".jpg")) {
+    hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'><img src='" + response + "'/></div></div>");
+  } else {
+    hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + response + "</div></div>");
+  }
+
+  scrollDown();
 }
 
 function updateWindowWithUserMessage(request) {
   hubotOutputWindow.append("<div class='output-row'><div class='user-avatar'><img src='user.png'/></div><div class='user-message'>" + request + "</div></div>");
   scrollDown();
+}
+
+function scrollDown() {
+  // to keep the latest output visible
+  hubotOutputWindow.stop().animate({
+    scrollTop: hubotOutputWindow[0].scrollHeight
+  }, 200);
 }
