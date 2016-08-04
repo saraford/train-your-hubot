@@ -86,15 +86,22 @@ function spawnHubot() {
       if (start_of_response.length != 0) {
         console.log("Yep response was on same line: " + start_of_response);
 
-        hubot_history += start_of_response;
+        // prep found text
+        var prepared_response = start_of_response.trim();
+        prepared_response = "\n" + prepared_response;
+        // if (prepared_response.indexOf('\n') == -1) {
+        //   console.log("need to add a newline");
+        //   prepared_response = "\n" + prepared_response;
+        // }
+
+        hubot_history += prepared_response;
         $('#hubot-output').text(hubot_history);
+        console.log("stdout: " + prepared_response);
 
         // to keep the latest output visible
         $('#hubot-output').stop().animate({
           scrollTop: $('#hubot-output')[0].scrollHeight
         }, 200);
-
-        console.log("stdout: " + start_of_response);
 
         current_raw_response = "";
         return;
@@ -110,7 +117,16 @@ function spawnHubot() {
     if (is_response_next) {
       console.log("This is next response " + current_raw_response);
 
-      hubot_history += hubot_response;
+      // prep found text
+      var prepared_response = hubot_response.trim();
+      prepared_response = "\n" + prepared_response;
+
+      // if (prepared_response.indexOf('\n') == -1) {
+      //   console.log("need to add a newline");
+      //   prepared_response = "\n" + prepared_response;
+      // }
+
+      hubot_history += prepared_response;
       $('#hubot-output').text(hubot_history);
 
       // to keep the latest output visible
@@ -119,7 +135,7 @@ function spawnHubot() {
       }, 200);
 
       current_raw_response = "";
-      console.log("stdout: " + hubot_response);
+      console.log("stdout: " + prepared_response);
     }
 
   });
