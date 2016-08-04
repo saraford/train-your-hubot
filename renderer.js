@@ -150,11 +150,17 @@ function spawnHubot() {
 function updateWindowWithHubotMessage(response) {
 
   response = response.trim();
+  // console.log('response:' + response);
+  // console.log("does response contain shell? " + response.includes('Shell:'));
 
   // only supporting single .jpg responses right now
   if (response.endsWith(".jpg")) {
     hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'><img src='" + response + "'/></div></div>");
-  } else {
+  } else if (response.includes('Shell:')) {
+    response = response.replace("Shell:", "@octocat:");
+    hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + response + "</div></div>");
+  }
+  else {
     hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + response + "</div></div>");
   }
 
@@ -162,7 +168,7 @@ function updateWindowWithHubotMessage(response) {
 }
 
 function updateWindowWithUserMessage(request) {
-  hubotOutputWindow.append("<div class='output-row'><div class='user-avatar'><img src='user.png'/></div><div class='user-message'>" + request + "</div></div>");
+  hubotOutputWindow.append("<div class='output-row'><div class='user-avatar'><img src='octocat.png'/></div><div class='user-message'>" + request + "</div></div>");
   scrollDown();
 }
 
