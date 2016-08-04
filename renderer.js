@@ -138,7 +138,7 @@ function spawnHubot() {
       if (current_response.endsWith(".jpg")) {
         hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'><img src='" + current_response + "'/></div></div>");
       } else {
-        hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + hubot_response.trim() + "</div></div>");
+        hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + current_response + "</div></div>");
       }
 
 
@@ -148,7 +148,7 @@ function spawnHubot() {
       }, 200);
 
       current_response = "";
-      console.log("stdout: " + hubot_response.trim());
+      console.log("stdout: " + current_response);
     }
 
   });
