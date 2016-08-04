@@ -36,13 +36,14 @@ h1 {
 }
 
 #hubot-output {
+  width: 100%;
   text-align: left;
   flex-grow: 1;
   overflow: scroll;
   font-size: 1.5em;
   border: none;
   font-family: monospace;
-  white-space: pre-wrap;
+  /*white-space: pre-wrap;*/
   position:absolute;
   color: black;
   top:50px;
@@ -81,4 +82,17 @@ h1 {
   text-align: right;
   margin-right: 25px;
   margin-bottom: 5px;
+}
+
+.output-row {
+
+}
+
+.hubot-avatar {
+  display: table-cell;
+  width: 70px;
+}
+
+.hubot-message {
+  display: table-cell;
 }
