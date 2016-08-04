@@ -108,7 +108,6 @@ function spawnHubot() {
         console.log("Yep response was on same line: " + start_of_response);
 
         // trim whitespace and add
-//        hubotOutputWindow.append("<div class='hubot-msg'>" + start_of_response.trim() + "</div>");
         hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + start_of_response.trim() + "</div></div>");
 
         // to keep the latest output visible
@@ -133,9 +132,15 @@ function spawnHubot() {
     if (is_hubot_response_we_want) {
       console.log("This is next response " + current_response);
 
-      // prep found text and add
+      current_response = current_response.trim();
+
+      // only supporting single .jpg responses right now
+      if (current_response.endsWith(".jpg")) {
+        hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'><img src='" + current_response + "'/></div></div>");
+      } else {
         hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + hubot_response.trim() + "</div></div>");
-//      hubotOutputWindow.append("<div class='hubot-msg'>" + hubot_response.trim() + "</div>");
+      }
+
 
       // to keep the latest output visible
       hubotOutputWindow.stop().animate({
