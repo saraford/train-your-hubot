@@ -80,6 +80,7 @@ function spawnHubot() {
     if (hubot_response.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
       hubotLoaded = true;
       hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>hubot ready</div></div>");
+      scrollDown();
       return;
     }
 
@@ -109,11 +110,7 @@ function spawnHubot() {
 
         // trim whitespace and add
         hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + start_of_response.trim() + "</div></div>");
-
-        // to keep the latest output visible
-        hubotOutputWindow.stop().animate({
-          scrollTop: hubotOutputWindow[0].scrollHeight
-        }, 200);
+        scrollDown()
 
         // clear current response for next time
         current_response = "";
@@ -141,11 +138,7 @@ function spawnHubot() {
         hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + current_response + "</div></div>");
       }
 
-
-      // to keep the latest output visible
-      hubotOutputWindow.stop().animate({
-        scrollTop: hubotOutputWindow[0].scrollHeight
-      }, 200);
+      scrollDown();
 
       current_response = "";
       console.log("stdout: " + current_response);
@@ -162,6 +155,14 @@ function spawnHubot() {
   });
 }
 
+function scrollDown() {
+  // to keep the latest output visible
+  hubotOutputWindow.stop().animate({
+    scrollTop: hubotOutputWindow[0].scrollHeight
+  }, 200);
+}
+
 function updateWindowWithUserMessage(request) {
   hubotOutputWindow.append("<div class='output-row'><div class='user-avatar'><img src='user.png'/></div><div class='user-message'>" + request + "</div></div>");
+  scrollDown();
 }
