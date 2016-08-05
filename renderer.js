@@ -160,7 +160,7 @@ function updateWindowWithHubotMessage(response) {
   // console.log("does response contain shell? " + response.includes('Shell:'));
 
   // only supporting single media responses right now
-  if (response.endsWith(".jpg") || response.endsWith(".gif")) {
+  if (response.endsWith(".jpg") || response.endsWith(".gif") || response.endsWith(".png")) {
     hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'><img src='" + response + "'/></div></div>");
   } else if (response.includes('Shell:')) {
     response = response.replace("Shell:", "@octocat:");
