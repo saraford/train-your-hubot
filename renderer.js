@@ -16,18 +16,24 @@ const wireUpButtons = () => {
 
   sendButton.on('click', function() {
 
-    // if user is sending more requests, we're done listening async to hubot
-    is_hubot_response_we_want = false;
-
+    // update the window first
     var request = hubotInput.val() + '\n';
-
-    console.log("sending ", request);
-    hubot_spawn.stdin.write(request);
-
     updateWindowWithUserMessage(request);
 
     // clear input window for next command
     $(hubotInput).val('');
+
+    // if we immediate request, hubot comes back instantly
+    // need a bit of a delay to get that back-and-forth chat feeling
+    setTimeout(function() {
+      // if user is sending more requests, we're done listening async to hubot
+      is_hubot_response_we_want = false;
+
+      // send request to hubot
+      console.log("sending ", request);
+      hubot_spawn.stdin.write(request);
+
+    }, 1000);
 
   });
 
@@ -153,8 +159,8 @@ function updateWindowWithHubotMessage(response) {
   // console.log('response:' + response);
   // console.log("does response contain shell? " + response.includes('Shell:'));
 
-  // only supporting single .jpg responses right now
-  if (response.endsWith(".jpg")) {
+  // only supporting single media responses right now
+  if (response.endsWith(".jpg") || response.endsWith(".gif")) {
     hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'><img src='" + response + "'/></div></div>");
   } else if (response.includes('Shell:')) {
     response = response.replace("Shell:", "@octocat:");
