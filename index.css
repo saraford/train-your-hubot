@@ -56,7 +56,7 @@ h1 {
   text-align: left;
   font-style: italic;
   opacity: 0.8;
-  margin-left: 40px;
+  margin-left: 45px;
   margin-top: 10px;
   color: rgb(56, 56, 56);
 }
@@ -68,6 +68,7 @@ h1 {
 }
 
 #hubot-input {
+  padding-left: 10px;
   float: left;
   font-size: 1em;
   overflow: scroll;

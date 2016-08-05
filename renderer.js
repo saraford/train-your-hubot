@@ -33,7 +33,7 @@ const wireUpButtons = () => {
       console.log("sending ", request);
       hubot_spawn.stdin.write(request);
 
-    }, 1000);
+    }, 750);
 
   });
 
