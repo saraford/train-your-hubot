@@ -30,8 +30,8 @@ h1 {
   border: none;
   text-align: left;
   margin: 5px;
-  margin-bottom: 0px;
-  margin-top: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   font-family: monospace;
 }
 
@@ -56,31 +56,40 @@ h1 {
   text-align: left;
   font-style: italic;
   opacity: 0.8;
-  margin-left: 20px;
+  margin-left: 40px;
   margin-top: 10px;
   color: rgb(56, 56, 56);
 }
 
+#help-button {
+  float: left;
+  margin-top: 10px;
+  font-size: 0.6em;
+}
+
 #hubot-input {
+  float: left;
   font-size: 1em;
   overflow: scroll;
   border: none;
   text-align: left;
-  margin: 10px;
-  margin-right: 0px;
+  margin-left: 5px;
   font-family: monospace;
-  width: 82%;
+  width: 75%;
 }
 
 #send-button {
-  font-size: 0.5em;
+  float: left;
+  margin-top: 10px;
+  margin-left: 5px;
+  font-size: 0.6em;
 }
 
 #footer {
   color: rgb(56, 56, 56);
   font-size: 12px;
   text-align: right;
-  margin-right: 25px;
+  margin-right: 10px;
   margin-bottom: 5px;
 }
 
