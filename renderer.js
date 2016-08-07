@@ -1,7 +1,11 @@
 'use strict'
 
-const hubot_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot/bin/hubot";
-const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot";
+// const hubot_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot/bin/hubot";
+// const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot";
+
+//const hubot_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/bin/hubot";
+const hubot_path = "/Users/saraford/repos/electron/hubot/hubot-launch";
+const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot";
 
 const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
@@ -85,9 +89,9 @@ function spawnHubot() {
               if false (set in the "send hubot message" event), we go back to #2
     */
 
-    if (hubot_response.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
+//    if (hubot_response.indexOf("Data for hubot brain retrieved from Redis") !== -1) {
+    if (hubot_response.indexOf("running hubot") !== -1) {
       hubotLoaded = true;
-
       updateWindowWithHubotMessage("hubot ready");
       return;
     }
@@ -101,13 +105,13 @@ function spawnHubot() {
     current_response += hubot_response;
 
     // the response we want comes after the current "myhubot>" response
-    if (current_response.includes("myhubot>")) {
+    if (current_response.includes("Hubot>")) {
       is_hubot_response_we_want = true;
 
       // the real hubot response might have come with this current_response
       // e.g. "myhubot> PONG" instead of "PONG" on a newline
       // so display everything that comes after "myhubot>"
-      var index = current_response.indexOf("myhubot>");
+      var index = current_response.indexOf("Hubot>");
       var length = current_response.length;
       var start_of_response = current_response.substring(index + 8, length - 1);
 
