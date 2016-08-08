@@ -1,11 +1,11 @@
 var EventEmitter = require("events").EventEmitter;
 
   exports.ElectronApp = function(wrapper) {
-      function handleEvent(args) {
-          console.log("I'm from ElectronApp and I caught "+JSON.stringify(args));
-      }
+
+    var response = ""
 
       wrapper.robotEvents.on("myEvent", function(args) {
-          handleEvent(args);
+        var response = JSON.stringify(args);
+        console.log("I'm from ElectronApp and I caught "+ response);
       });
   }

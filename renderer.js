@@ -16,6 +16,11 @@ const TextMessage = Hubot.TextMessage;
 const helper = require('./helper');
 var robot = undefined;
 
+const callMe = (data) => {
+  console.log("callMe has been called w data: " + data);
+  updateWindowWithHubotMessage(data);
+}
+
 var loadScripts = function() {
   var scriptsPath = Path.resolve(".", "scripts");
   robot.load(scriptsPath);
@@ -72,11 +77,11 @@ function startHubot() {
   //adapterPath, adapterName, enableHttpd, botName, botAlias
   robot = Hubot.loadBot("hubot-sample", "sample", true, "Hubot", false);
   robot.adapter.once('connected', loadScripts);
+  robot.adapter.foo(callMe);
   robot.run();
   console.log("made it");
 
   var foo = "";
-  helper.ElectronApp(foo);
 
 }
 
