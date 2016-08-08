@@ -29,15 +29,16 @@ const wireUpButtons = () => {
 
   let sendButton = $('#send-button');
   let hubotInput = $('#hubot-input');
+  hubotOutputWindow = $('#hubot-output');
 
   sendButton.on('click', function() {
 
     // update the window first
-    var request = hubotInput.val() + '\n';
+    var request = $('#hubot-input').val() + '\n';
     updateWindowWithUserMessage(request);
 
     // clear input window for next command
-    $(hubotInput).val('');
+    hubotInput.val('');
 
     // if we immediate request, hubot comes back instantly
     // need a bit of a delay to get that back-and-forth chat feeling
@@ -47,7 +48,9 @@ const wireUpButtons = () => {
 
       // send request to hubot
       console.log("sending ", request);
-      hubot_spawn.stdin.write(request);
+      console.log("here we go...");
+      var user = robot.brain.userForId(1, 'Shell', 'Shell');
+      robot.receive(new TextMessage(user, 'hubot ping', 'messageId'));
 
     }, 750);
 
