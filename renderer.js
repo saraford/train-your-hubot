@@ -21,7 +21,6 @@ var loadScripts = function() {
   robot.load(scriptsPath);
 };
 
-
 var is_hubot_response_we_want = false;
 let hubotOutputWindow = undefined;
 
@@ -34,7 +33,7 @@ const wireUpButtons = () => {
   sendButton.on('click', function() {
 
     // update the window first
-    var request = $('#hubot-input').val() + '\n';
+    var request = $('#hubot-input').val();
     updateWindowWithUserMessage(request);
 
     // clear input window for next command
@@ -50,7 +49,7 @@ const wireUpButtons = () => {
       console.log("sending ", request);
       console.log("here we go...");
       var user = robot.brain.userForId(1, 'Shell', 'Shell');
-      robot.receive(new TextMessage(user, 'hubot ping', 'messageId'));
+      robot.receive(new TextMessage(user, request, 'messageId'));
 
     }, 750);
 
@@ -75,6 +74,10 @@ function startHubot() {
   robot.adapter.once('connected', loadScripts);
   robot.run();
   console.log("made it");
+
+  var foo = "";
+  helper.ElectronApp(foo);
+
 }
 
 function spawnHubot() {
