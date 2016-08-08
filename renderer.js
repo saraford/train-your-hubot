@@ -4,12 +4,24 @@
 // const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot";
 
 //const hubot_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/bin/hubot";
-const hubot_path = "/Users/saraford/repos/electron/hubot/hubot-launch";
-const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot";
-
+// const hubot_path = "/Users/saraford/repos/electron/hubot/hubot-launch";
+// const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot";
 const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
-var hubot_spawn = undefined;
+
+require('coffee-script/register');
+const Path = require('path');
+const Hubot = require('hubot');
+const TextMessage = Hubot.TextMessage;
+const helper = require('./helper');
+var robot = undefined;
+
+var loadScripts = function() {
+  var scriptsPath = Path.resolve(".", "scripts");
+  robot.load(scriptsPath);
+};
+
+
 var is_hubot_response_we_want = false;
 let hubotOutputWindow = undefined;
 
@@ -50,8 +62,17 @@ const wireUpButtons = () => {
 
 document.addEventListener('DOMContentLoaded', function() {
   wireUpButtons();
-  spawnHubot();
+  startHubot();
+//  spawnHubot();
 });
+
+function startHubot() {
+  //adapterPath, adapterName, enableHttpd, botName, botAlias
+  robot = Hubot.loadBot("hubot-sample", "sample", true, "Hubot", false);
+  robot.adapter.once('connected', loadScripts);
+  robot.run();
+  console.log("made it");
+}
 
 function spawnHubot() {
 
