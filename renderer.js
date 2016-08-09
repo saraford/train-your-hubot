@@ -1,11 +1,13 @@
 'use strict'
 
+const sampleAdatperPath = "/Users/saraford/repos/electron/hubot/node_modules/hubot-sample/src/sample.coffee"
+
 // const hubot_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot/bin/hubot";
 // const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/myhubot";
 
 //const hubot_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot/bin/hubot";
 // const hubot_path = "/Users/saraford/repos/electron/hubot/hubot-launch";
-// const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules/hubot";
+const hubot_cwd_path = "/Users/saraford/repos/electron/hubot/node_modules";
 const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
 
@@ -75,7 +77,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function startHubot() {
   //adapterPath, adapterName, enableHttpd, botName, botAlias
-  robot = Hubot.loadBot("hubot-sample", "sample", true, "Hubot", false);
+
+  // prints out /Users/saraford/repos/electron/hubot
+  // console.log("Start dir" + process.cwd());
+  // process.chdir('/Users/saraford/repos/electron/hubot/node_modules');
+  // var loc = window.location.pathname;
+  // var dir = loc.substring(0, loc.lastIndexOf('/'));
+  // console.log("start dir" + process.cwd());
+  // process.chdir(hubot_cwd_path);
+  // console.log("changed dir" + process.cwd());
+
+  // "adapterPath - the first parameter it is never used"
+  robot = Hubot.loadBot(undefined, "sample", true, "Hubot", false);
   robot.adapter.once('connected', loadScripts);
   robot.adapter.foo(callMe);
   robot.run();
@@ -84,6 +97,12 @@ function startHubot() {
   var foo = "";
 
 }
+
+const myAdapterLoader = () => {
+  console.log("myAdapterLoader called");
+}
+
+
 
 function spawnHubot() {
 
