@@ -26,6 +26,9 @@ const callMe = (data) => {
 var loadScripts = function() {
   var scriptsPath = Path.resolve(".", "scripts");
   robot.load(scriptsPath);
+
+  var rulesScriptPath = Path.resolve(".", "node_modules/hubot-rules/src")
+  robot.load(rulesScriptPath);
 };
 
 var is_hubot_response_we_want = false;
