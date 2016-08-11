@@ -5,9 +5,6 @@ module.exports = (robot) ->
     console.log("yo from hubot-launch scripts")
     msg.send "pong"
 
-  robot.respond /HEY$/i, (msg) ->
-    msg.send "hey from newly uploaded script"
-
   robot.respond /open the (.*) doors/i, (res) ->
     doorType = res.match[1]
     console.log "doorType: #{doorType}"

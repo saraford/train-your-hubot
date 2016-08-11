@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
+const play_scripts = "scripts/play.coffee";
 
 require('coffee-script/register');
 const fs = require('fs');
@@ -32,7 +33,7 @@ function loadScriptsNew() {
   // to keep the deleteScriptCache function simple
   // loading the same file multiple times (e.g. hubot-rules) doesn't
   // seem to have any negative effects
-  var scriptToDelete = Path.resolve(".", "scripts/example.coffee");
+  var scriptToDelete = Path.resolve(".", play_scripts);
   deleteScriptCache(scriptToDelete);
 
   loadScripts();
