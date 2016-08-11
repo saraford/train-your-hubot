@@ -4,6 +4,7 @@ const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
 
 require('coffee-script/register');
+const fs = require('fs');
 const Path = require('path');
 const Hubot = require('hubot');
 const TextMessage = Hubot.TextMessage;
@@ -14,12 +15,50 @@ var loadScripts = function() {
   var scriptsPath = Path.resolve(".", "scripts");
   robot.load(scriptsPath);
 
-  var rulesScriptPath = Path.resolve(".", "node_modules/hubot-rules/src")
-  robot.load(rulesScriptPath);
-
-  var pugmeScriptPath = Path.resolve(".", "node_modules/hubot-pugme/src")
-  robot.load(pugmeScriptPath);
+  // var rulesScriptPath = Path.resolve(".", "node_modules/hubot-rules/src")
+  // robot.load(rulesScriptPath);
+  //
+  // var pugmeScriptPath = Path.resolve(".", "node_modules/hubot-pugme/src")
+  // robot.load(pugmeScriptPath);
 };
+
+function loadScriptsNew() {
+  robot.commands = [];
+  robot.listeners = [];
+
+  var scriptsPath = Path.resolve(".", "scripts");
+  var scriptsPathFull = Path.resolve(".", "scripts/example.coffee");
+
+  deleteScriptCache(scriptsPathFull);
+  robot.load(scriptsPath);
+
+  console.log("scripts loaded");
+}
+
+function deleteScriptCache(scriptsBaseDir) {
+  console.log("scriptsBaseDir: ", scriptsBaseDir);
+
+  // ref: https://github.com/srobroek/hubot/blob/e543dff46fba9e435a352e6debe5cf210e40f860/src/robot.coffee
+  if (fs.existsSync(scriptsBaseDir)) {
+
+    var full = scriptsBaseDir;
+
+    if (require.cache[require.resolve(full)]) {
+        console.log("here5");
+      try {
+        console.log("here6");
+        var cacheobj = require.resolve(full);
+        console.log("Invalidate require cache for #{cacheobj}");
+        delete(require.cache[cacheobj]);
+        console.log("here7");
+      }
+      catch(error) {
+        console.log("Unable to invalidate #{cacheobj}: #{error.stack}");
+      }
+    }
+  }
+}
+
 
 let hubotOutputWindow = undefined;
 
@@ -28,6 +67,11 @@ const wireUpButtons = () => {
   let sendButton = $('#send-button');
   let hubotInput = $('#hubot-input');
   hubotOutputWindow = $('#hubot-output');
+  let loadScriptsNewButton = $('#load-new-button');
+
+  loadScriptsNewButton.on('click', function() {
+    loadScriptsNew();
+  });
 
   sendButton.on('click', function() {
 

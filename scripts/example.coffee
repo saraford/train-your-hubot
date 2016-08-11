@@ -6,7 +6,7 @@ module.exports = (robot) ->
     msg.send "pong"
 
   robot.respond /HEY$/i, (msg) ->
-    msg.send "hey back"
+    msg.send "hey from new scripts"
 
   robot.respond /open the (.*) doors/i, (res) ->
     doorType = res.match[1]
