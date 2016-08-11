@@ -10,16 +10,6 @@ const TextMessage = Hubot.TextMessage;
 const helper = require('./helper');
 var robot = undefined;
 
-const callMe = (data) => {
-  console.log("callMe has been called w data: " + data);
-  updateWindowWithHubotMessage(data);
-}
-
-const callMe2 = (data) => {
-  console.log("callMe2 has been called w data: " + data);
-  updateWindowWithHubotMessage(data, true);
-}
-
 var loadScripts = function() {
   var scriptsPath = Path.resolve(".", "scripts");
   robot.load(scriptsPath);
@@ -79,8 +69,7 @@ function startHubot() {
   // adapterPath - the first parameter it is never used, hence undefined
   robot = Hubot.loadBot(undefined, "sample", true, "Hubot", false);
   robot.adapter.once('connected', loadScripts);
-  robot.adapter.foo(callMe);
-  robot.adapter.foo2(callMe2);
+  robot.adapter.wireUpResponses(updateWindowWithHubotMessage);
   robot.run();
   console.log("made it");
 
@@ -88,7 +77,7 @@ function startHubot() {
   var foo2 = "";
 }
 
-function updateWindowWithHubotMessage(response, isEmote) {
+const updateWindowWithHubotMessage = (response, isEmote) => {
 
   if (typeof isEmote === 'undefined') { isEmote = false; }
 
