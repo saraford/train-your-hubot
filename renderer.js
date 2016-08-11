@@ -15,48 +15,48 @@ var loadScripts = function() {
   var scriptsPath = Path.resolve(".", "scripts");
   robot.load(scriptsPath);
 
-  // var rulesScriptPath = Path.resolve(".", "node_modules/hubot-rules/src")
-  // robot.load(rulesScriptPath);
-  //
-  // var pugmeScriptPath = Path.resolve(".", "node_modules/hubot-pugme/src")
-  // robot.load(pugmeScriptPath);
+  var rulesScriptPath = Path.resolve(".", "node_modules/hubot-rules/src")
+  robot.load(rulesScriptPath);
+
+  var pugmeScriptPath = Path.resolve(".", "node_modules/hubot-pugme/src")
+  robot.load(pugmeScriptPath);
 };
 
 function loadScriptsNew() {
+
+  // otherwise, we'll get back multiple responses...
   robot.commands = [];
   robot.listeners = [];
 
-  var scriptsPath = Path.resolve(".", "scripts");
-  var scriptsPathFull = Path.resolve(".", "scripts/example.coffee");
+  // let's delete only the file we're allowing the user to modify
+  // to keep the deleteScriptCache function simple
+  // loading the same file multiple times (e.g. hubot-rules) doesn't
+  // seem to have any negative effects
+  var scriptToDelete = Path.resolve(".", "scripts/example.coffee");
+  deleteScriptCache(scriptToDelete);
 
-  deleteScriptCache(scriptsPathFull);
-  robot.load(scriptsPath);
+  loadScripts();
 
   console.log("scripts loaded");
 }
 
-function deleteScriptCache(scriptsBaseDir) {
-  console.log("scriptsBaseDir: ", scriptsBaseDir);
+function deleteScriptCache(scriptToDelete) {
 
-  // ref: https://github.com/srobroek/hubot/blob/e543dff46fba9e435a352e6debe5cf210e40f860/src/robot.coffee
-  if (fs.existsSync(scriptsBaseDir)) {
+  // https://github.com/vinta/hubot-reload-scripts/blob/master/src/reload-scripts.coffee
+  if (fs.existsSync(scriptToDelete)) {
 
-    var full = scriptsBaseDir;
-
-    if (require.cache[require.resolve(full)]) {
-        console.log("here5");
+    if (require.cache[require.resolve(scriptToDelete)]) {
       try {
-        console.log("here6");
-        var cacheobj = require.resolve(full);
-        console.log("Invalidate require cache for #{cacheobj}");
+        var cacheobj = require.resolve(scriptToDelete);
         delete(require.cache[cacheobj]);
-        console.log("here7");
       }
       catch(error) {
         console.log("Unable to invalidate #{cacheobj}: #{error.stack}");
       }
     }
   }
+
+  updateWindowWithHubotMessage("done refreshing scripts!");
 }
 
 
