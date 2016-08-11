@@ -29,6 +29,9 @@ var loadScripts = function() {
 
   var rulesScriptPath = Path.resolve(".", "node_modules/hubot-rules/src")
   robot.load(rulesScriptPath);
+
+  var pugmeScriptPath = Path.resolve(".", "node_modules/hubot-pugme/src")
+  robot.load(pugmeScriptPath);
 };
 
 var is_hubot_response_we_want = false;
@@ -58,7 +61,7 @@ const wireUpButtons = () => {
       // send request to hubot
       console.log("sending ", request);
       console.log("here we go...");
-      var user = robot.brain.userForId(1, 'Shell', 'Shell');
+      var user = robot.brain.userForId(1, 'octocat', 'Shell');
       robot.receive(new TextMessage(user, request, 'messageId'));
 
     }, 750);
@@ -100,12 +103,6 @@ function startHubot() {
   var foo = "";
 
 }
-
-const myAdapterLoader = () => {
-  console.log("myAdapterLoader called");
-}
-
-
 
 function spawnHubot() {
 
