@@ -8,7 +8,7 @@ app.on('ready', function() {
 
     mainWindow = new BrowserWindow({
         height: 600,
-        width: 400,
+        width: 800,
         minHeight: 600,
         minWidth: 400
     });
