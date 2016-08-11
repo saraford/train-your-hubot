@@ -23,6 +23,12 @@ const callMe = (data) => {
   updateWindowWithHubotMessage(data);
 }
 
+const callMe2 = (data) => {
+  console.log("callMe2 has been called w data: " + data);
+  updateWindowWithHubotMessage(data, true);
+}
+
+
 var loadScripts = function() {
   var scriptsPath = Path.resolve(".", "scripts");
   robot.load(scriptsPath);
@@ -97,10 +103,12 @@ function startHubot() {
   robot = Hubot.loadBot(undefined, "sample", true, "Hubot", false);
   robot.adapter.once('connected', loadScripts);
   robot.adapter.foo(callMe);
+  robot.adapter.foo2(callMe2);
   robot.run();
   console.log("made it");
 
   var foo = "";
+  var foo2 = "";
 
 }
 
@@ -208,7 +216,9 @@ function spawnHubot() {
 }
 
 
-function updateWindowWithHubotMessage(response) {
+function updateWindowWithHubotMessage(response, isEmote) {
+
+  if (typeof isEmote === 'undefined') { isEmote = false; }
 
   response = response.trim();
   // console.log('response:' + response);
@@ -222,7 +232,11 @@ function updateWindowWithHubotMessage(response) {
     hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + response + "</div></div>");
   }
   else {
-    hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + response + "</div></div>");
+    if (isEmote) {
+          hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'><i>" + response + "</i></div></div>");
+    } else {
+      hubotOutputWindow.append("<div class='output-row'><div class='hubot-avatar'><img src='hubot.png'/></div><div class='hubot-message'>" + response + "</div></div>");
+    }
   }
 
   scrollDown();
