@@ -67,12 +67,18 @@ const wireUpButtons = () => {
 
   let sendButton = $('#send-button');
   let hubotInput = $('#hubot-input');
-  let loadScriptsNewButton = $('#load-new-button');
+  let loadScriptsNewButton = $('#upload-button');
+  let saveScriptsButton = $('#save-button');
   hubotOutputWindow = $('#hubot-output');
   scriptArea = $('#script-textarea');
 
   loadScriptsNewButton.on('click', function() {
-    saveScripts();
+    saveScripts(true);
+  });
+
+  saveScriptsButton.on('click', function() {
+    console.log("clicked");
+    saveScripts(false);
   });
 
   sendButton.on('click', function() {
@@ -170,10 +176,12 @@ function showUserScriptInTextArea() {
   });
 }
 
-function saveScripts() {
+function saveScripts(reload) {
   var file = Path.resolve(".", play_scripts);
   var content = scriptArea.val();
   fs.writeFile(file, content, function () {
-      loadScriptsNew();
+      if (reload) {
+        loadScriptsNew();
+      }
   });
 }
