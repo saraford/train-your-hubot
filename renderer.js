@@ -3,7 +3,6 @@
 const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
 const play_scripts = "scripts/play.coffee";
-
 require('coffee-script/register');
 const fs = require('fs');
 const Path = require('path');
@@ -11,6 +10,7 @@ const Hubot = require('hubot');
 const TextMessage = Hubot.TextMessage;
 const helper = require('./helper');
 var robot = undefined;
+var scriptArea = undefined;
 
 var loadScripts = function() {
   var scriptsPath = Path.resolve(".", "scripts");
@@ -57,7 +57,7 @@ function deleteScriptCache(scriptToDelete) {
     }
   }
 
-  updateWindowWithHubotMessage("done refreshing scripts!");
+  updateWindowWithHubotMessage("done refreshing scripts!", true);
 }
 
 
@@ -67,11 +67,12 @@ const wireUpButtons = () => {
 
   let sendButton = $('#send-button');
   let hubotInput = $('#hubot-input');
-  hubotOutputWindow = $('#hubot-output');
   let loadScriptsNewButton = $('#load-new-button');
+  hubotOutputWindow = $('#hubot-output');
+  scriptArea = $('#script-textarea');
 
   loadScriptsNewButton.on('click', function() {
-    loadScriptsNew();
+    saveScripts();
   });
 
   sendButton.on('click', function() {
@@ -107,6 +108,7 @@ const wireUpButtons = () => {
 document.addEventListener('DOMContentLoaded', function() {
   wireUpButtons();
   startHubot();
+  showUserScriptInTextArea();
 });
 
 function startHubot() {
@@ -154,4 +156,24 @@ function scrollDown() {
   hubotOutputWindow.stop().animate({
     scrollTop: hubotOutputWindow[0].scrollHeight
   }, 200);
+}
+
+function showUserScriptInTextArea() {
+
+  var file = Path.resolve(".", play_scripts);
+  fs.readFile(file, 'utf8', function (error, script_contents) {
+    if (error) {
+      return console.log(error);
+    }
+    console.log(script_contents);
+    scriptArea.text(script_contents);
+  });
+}
+
+function saveScripts() {
+  var file = Path.resolve(".", play_scripts);
+  var content = scriptArea.val();
+  fs.writeFile(file, content, function () {
+      loadScriptsNew();
+  });
 }
