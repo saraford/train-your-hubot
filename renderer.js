@@ -116,10 +116,8 @@ function startHubot() {
   robot.adapter.once('connected', loadScripts);
   robot.adapter.wireUpResponses(updateWindowWithHubotMessage);
   robot.run();
-  console.log("made it");
 
-  var foo = "";
-  var foo2 = "";
+  updateWindowWithHubotMessage("I'm good to go!");
 }
 
 const updateWindowWithHubotMessage = (response, isEmote) => {
