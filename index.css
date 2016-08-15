@@ -42,8 +42,8 @@ body {
   background-color: rgb(245, 245, 245);
   color: rgb(56, 56, 56);
   font-size: 12px;
-  text-align: right;
-  margin-right: 10px;
+  text-align: left;
+  margin-left: 10px;
   position: absolute;
   bottom: 0px;
   width: 100%;
@@ -97,6 +97,12 @@ h1 {
   margin-left: 20px;
   margin-top: 10px;
   color: rgb(56, 56, 56);
+}
+
+#scripts-button {
+  position: absolute;
+  top: 10px;
+  right: 50px;
 }
 
 #input-area {

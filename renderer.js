@@ -65,12 +65,19 @@ let hubotOutputWindow = undefined;
 
 const wireUpButtons = () => {
 
+  $('#right-section').hide();
+
   let sendButton = $('#send-button');
   let hubotInput = $('#hubot-input');
   let loadScriptsNewButton = $('#upload-button');
   let saveScriptsButton = $('#save-button');
+  let scriptsButton = $('#scripts-button');
   hubotOutputWindow = $('#hubot-output');
   scriptArea = $('#script-textarea');
+
+  scriptsButton.on('click', function() {
+    showScriptsPane();
+  });
 
   loadScriptsNewButton.on('click', function() {
     saveScripts(true);
@@ -185,3 +192,28 @@ function saveScripts(reload) {
       }
   });
 }
+
+var willShowScripts = false;
+function showScriptsPane() {
+
+  if ($('#right-section').is(":visible")) {
+    // if showing, hide
+    willShowScripts = false;
+    $('#right-section').hide();
+    $('#scripts-button').html('show scripts ->');
+    ipcRenderer.send('resizeMainForScripts', 400, 600);
+  } else {
+    // if not visible, show
+    willShowScripts = true;
+    ipcRenderer.send('resizeMainForScripts', 800, 600);
+  }
+}
+
+ipcRenderer.on('showScripts' , function(event , data) {
+
+  if (willShowScripts) {
+    // finish showing the scripts pane
+    $('#right-section').show();
+    $('#scripts-button').html('<- hide scripts');
+  } 
+});
