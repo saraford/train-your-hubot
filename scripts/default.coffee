@@ -2,7 +2,6 @@
 
 module.exports = (robot) ->
   robot.respond /PING$/i, (msg) ->
-    console.log("yo from hubot-launch scripts")
     msg.send "pong"
 
   robot.respond /open the (.*) doors/i, (res) ->
@@ -15,6 +14,22 @@ module.exports = (robot) ->
 
   robot.hear /I like pie/i, (res) ->
     res.emote "makes a freshly baked pie"
+
+  robot.respond /HELP$/i, (msg) ->
+    msg.send "Here's what you can ask me:\n
+      >Hubot ping\n
+      >Hubot open the (type of) doors\n
+      >Hubot pug me\n
+      >Hubot pug bomb <number>\n
+      >Hubot how many pugs are there\n
+      >Hubot the rules\n
+      >Hubot the rules apple\n
+      \n
+      Here's what you can mention\n
+      \"I like pie\"\n
+      \n
+      You can also upload your own scripts!"
+
 
   # lulz = ['lol', 'rofl', 'lmao']
   #
