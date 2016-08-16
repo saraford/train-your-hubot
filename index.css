@@ -141,6 +141,14 @@ h1 {
   font-size: 0.6em;
 }
 
+#script-error {
+  display: none;
+  position: absolute;
+  left: 10px;
+  top: 80px;
+  color: red;
+}
+
 .output-row {
   padding-top: 10px;
 }

@@ -12,33 +12,105 @@ const helper = require('./helper');
 var robot = undefined;
 var scriptArea = undefined;
 
-var loadScripts = function() {
+var loadUserScripts = function() {
+
   var scriptsPath = Path.resolve(".", "scripts");
   robot.load(scriptsPath);
+
+};
+
+var loadInstalledScripts = function() {
 
   var rulesScriptPath = Path.resolve(".", "node_modules/hubot-rules/src")
   robot.load(rulesScriptPath);
 
   var pugmeScriptPath = Path.resolve(".", "node_modules/hubot-pugme/src")
   robot.load(pugmeScriptPath);
+
 };
 
-function loadScriptsNew() {
+// because hubot won't put up with code that doesn't work!
+// https://github.com/github/hubot/blob/master/src/robot.coffee#L365
+function isPlayScriptValid() {
 
-  // otherwise, we'll get back multiple responses...
-  robot.commands = [];
-  robot.listeners = [];
+  console.log("testing play scripts");
+  var valid = false;
 
-  // let's delete only the file we're allowing the user to modify
-  // to keep the deleteScriptCache function simple
-  // loading the same file multiple times (e.g. hubot-rules) doesn't
-  // seem to have any negative effects
-  var scriptToDelete = Path.resolve(".", play_scripts);
-  deleteScriptCache(scriptToDelete);
+  var full = Path.resolve(".", "scripts/play.coffee");
 
-  loadScripts();
+  try {
+    var script = require(full)
 
-  console.log("scripts loaded");
+    //valid = true;
+    // todo: figure out
+    if (typeof(script) === 'function') {
+      script(robot);
+      robot.parseHelp(full);
+      valid = true;
+    }
+    else {
+      console.log("Expected " + full + " to assign a function to module.exports, got " + typeof(script));
+    }
+  }
+  catch(error) {
+    valid = false;
+    $('#script-error').show();
+    console.log("Unable to load " + full + ": " + error.stack);
+    return valid;
+  }
+
+  console.log("Play scripts valid");
+  $('#script-error').hide();
+  valid = true;
+  return valid;
+}
+
+var reloadAllScripts = function() {
+
+  if (isPlayScriptValid()) {
+
+    // must do this on reload otherwise, we'll get back multiple responses...
+    robot.commands = [];
+    robot.listeners = [];
+
+    // when reloading, let's delete only the file we're allowing the user to
+    // modify to keep the deleteScriptCache function simple
+    // loading the same npm-installed scripts multiple times (e.g. hubot-rules)
+    // doesn't seem to have any negative effects
+    var scriptToDelete = Path.resolve(".", play_scripts);
+    deleteScriptCache(scriptToDelete);
+
+    loadInstalledScripts();
+    loadUserScripts();
+
+    console.log("all scripts loaded");
+
+  } else {
+
+    console.log("there's a syntax error with the script");
+  }
+}
+
+var loadInitialScripts = function() {
+
+  // load the npm installed scripts
+  loadInstalledScripts();
+
+  // first test if it is a valid script
+  // if there are errors, kick back to user to fix
+  // unfortunately this means we can't load default.coffee on launch
+  // if there are issues with play.coffee since robot.load wants a dir
+  if (isPlayScriptValid()) {
+
+    loadUserScripts();
+
+    console.log("all scripts loaded");
+
+  } else {
+
+    console.log("there's a syntax error with your script");
+  }
+
 }
 
 function deleteScriptCache(scriptToDelete) {
@@ -128,7 +200,7 @@ function startHubot() {
   // adapterPath, adapterName, enableHttpd, botName, botAlias
   // adapterPath - the first parameter it is never used, hence undefined
   robot = Hubot.loadBot(undefined, "sample", true, "Hubot", false);
-  robot.adapter.once('connected', loadScripts);
+  robot.adapter.once('connected', loadInitialScripts);
   robot.adapter.wireUpResponses(updateWindowWithHubotMessage);
   robot.run();
 
@@ -188,7 +260,7 @@ function saveScripts(reload) {
   var content = scriptArea.val();
   fs.writeFile(file, content, function () {
       if (reload) {
-        loadScriptsNew();
+        reloadAllScripts();
       }
   });
 }
@@ -215,5 +287,5 @@ ipcRenderer.on('showScripts' , function(event , data) {
     // finish showing the scripts pane
     $('#right-section').show();
     $('#scripts-button').html('<- hide scripts');
-  } 
+  }
 });
