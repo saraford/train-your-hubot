@@ -4,6 +4,12 @@ const {app, BrowserWindow, ipcMain, remote} = require('electron');
 
 var mainWindow = null;
 
+process.on('uncaughtException', function (error) {
+    // Handle the error
+    console.log("YO YO YO main.js");
+});
+
+
 app.on('ready', function() {
 
     mainWindow = new BrowserWindow({
@@ -16,11 +22,6 @@ app.on('ready', function() {
     mainWindow.loadURL('file://' + __dirname + '/index.html');
     //mainWindow.webContents.openDevTools();
 
-});
-
-process.on('uncaughtException', function (error) {
-    // Handle the error
-    console.log("YO YO YO main.js");
 });
 
 
