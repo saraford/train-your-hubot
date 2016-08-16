@@ -18,6 +18,12 @@ app.on('ready', function() {
 
 });
 
+process.on('uncaughtException', function (error) {
+    // Handle the error
+    console.log("YO YO YO main.js");
+});
+
+
 ipcMain.on('resizeMainForScripts', function (e, width, height) {
     mainWindow.setSize(width, height);
     mainWindow.webContents.send('showScripts');

@@ -12,6 +12,13 @@ const helper = require('./helper');
 var robot = undefined;
 var scriptArea = undefined;
 
+process.on('uncaughtException', function (error) {
+    // Handle the error
+    console.log("YO YO YO 2");
+    console.log("My error stack: " + error.stack);
+});
+
+
 var loadUserScripts = function() {
 
   var scriptsPath = Path.resolve(".", "scripts");
@@ -41,27 +48,41 @@ function isPlayScriptValid() {
   try {
     var script = require(full)
 
-    //valid = true;
-    // todo: figure out
-    if (typeof(script) === 'function') {
+    console.log("typeof: " + typeof(script));
+      console.log("here 1");
+
+      // STARTHERE even if the script is valid, this line throws
       script(robot);
-      robot.parseHelp(full);
+      console.log("here 2");
       valid = true;
-    }
-    else {
-      console.log("Expected " + full + " to assign a function to module.exports, got " + typeof(script));
-    }
+      $('#script-error').hide();
+
+    // it thinks an valid script is invalid
+    // if (typeof(script) === 'function') {
+    //   console.log("here 1");
+    //   script(robot);
+    //   console.log("here 2");
+    //   //robot.parseHelp(full);
+    //   console.log("here 3");
+    //   valid = true;
+    //   $('#script-error').hide();
+    // }
+    // else {
+    //   valid = false;
+    //   console.log("here 4");
+    //   $('#script-error').show();
+    //   console.log("Expected " + full + " to assign a function to module.exports, got " + typeof(script));
+    // }
   }
   catch(error) {
+    console.log("here 5");
     valid = false;
     $('#script-error').show();
-    console.log("Unable to load " + full + ": " + error.stack);
-    return valid;
+    console.log("Caught an exception: Unable to load " + full + ": " + error.stack);
+    throw error;
+//     return valid;
   }
 
-  console.log("Play scripts valid");
-  $('#script-error').hide();
-  valid = true;
   return valid;
 }
 
@@ -96,20 +117,24 @@ var loadInitialScripts = function() {
   // load the npm installed scripts
   loadInstalledScripts();
 
+  loadUserScripts();
+
+  console.log("Loaded initial scripts");
+
   // first test if it is a valid script
   // if there are errors, kick back to user to fix
   // unfortunately this means we can't load default.coffee on launch
   // if there are issues with play.coffee since robot.load wants a dir
-  if (isPlayScriptValid()) {
-
-    loadUserScripts();
-
-    console.log("all scripts loaded");
-
-  } else {
-
-    console.log("there's a syntax error with your script");
-  }
+  // if (isPlayScriptValid()) {
+  //
+  //   loadUserScripts();
+  //
+  //   console.log("all scripts loaded");
+  //
+  // } else {
+  //
+  //   console.log("there's a syntax error with your script");
+  // }
 
 }
 
