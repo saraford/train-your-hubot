@@ -65,7 +65,6 @@ function isPlayScriptValid() {
 
   try {
 
-    // STARTHERE: this doesn't crash when script has errors, but crashes in hubot
     var coffeescript = require("coffee-script");
 
 //    debugger
@@ -123,8 +122,7 @@ function isPlayScriptValid() {
     valid = false;
     $('#script-error').show();
     console.log("Caught an exception: Unable to load " + full + ": " + error.stack);
-    throw error;
-//     return valid;
+     return valid;
   }
 
   console.log("here 6 and vaild is : " + valid);
@@ -162,24 +160,24 @@ var loadInitialScripts = function() {
   // load the npm installed scripts
   loadInstalledScripts();
 
-  loadUserScripts();
-
   console.log("Loaded initial scripts");
 
   // first test if it is a valid script
   // if there are errors, kick back to user to fix
   // unfortunately this means we can't load default.coffee on launch
   // if there are issues with play.coffee since robot.load wants a dir
-  // if (isPlayScriptValid()) {
-  //
-  //   loadUserScripts();
-  //
-  //   console.log("all scripts loaded");
-  //
-  // } else {
-  //
-  //   console.log("there's a syntax error with your script");
-  // }
+  // TODO in the future have a separate node for the default.coffee scripts
+  if (isPlayScriptValid()) {
+    console.log("play scripts are valid");
+
+    loadUserScripts();
+
+    console.log("all scripts loaded");
+
+  } else {
+
+    console.log("there's a syntax error with your script");
+  }
 
 }
 
@@ -269,6 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function startHubot() {
   // adapterPath, adapterName, enableHttpd, botName, botAlias
   // adapterPath - the first parameter it is never used, hence undefined
+  //debugger
   robot = Hubot.loadBot(undefined, "sample", true, "Hubot", false);
   robot.adapter.once('connected', loadInitialScripts);
   robot.adapter.wireUpResponses(updateWindowWithHubotMessage);
