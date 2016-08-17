@@ -12,26 +12,26 @@ const helper = require('./helper');
 var robot = undefined;
 var scriptArea = undefined;
 
-process.on('uncaughtException', function (error) {
-    // Handle the error
-    console.log("caught an unhandled exception");
-    console.log("Renderer.js error stack: " + error.stack);
-});
+// process.on('uncaughtException', function (error) {
+//     // Handle the error
+//     console.log("caught an unhandled exception");
+//     console.log("Renderer.js error stack: " + error.stack);
+// });
 
 
 var loadUserScripts = function() {
 
-  var scriptsPath = Path.resolve(".", "scripts");
+  var scriptsPath = Path.resolve(__dirname, "scripts");
   robot.load(scriptsPath);
 
 };
 
 var loadInstalledScripts = function() {
 
-  var rulesScriptPath = Path.resolve(".", "node_modules/hubot-rules/src")
+  var rulesScriptPath = Path.resolve(__dirname, "node_modules/hubot-rules/src")
   robot.load(rulesScriptPath);
 
-  var pugmeScriptPath = Path.resolve(".", "node_modules/hubot-pugme/src")
+  var pugmeScriptPath = Path.resolve(__dirname, "node_modules/hubot-pugme/src")
   robot.load(pugmeScriptPath);
 
 };
@@ -44,11 +44,12 @@ function isPlayScriptValid() {
   console.log("testing play scripts");
   var valid = false;
 
-  var full = Path.resolve(".", "scripts/play.coffee");
+  var full = Path.resolve(__dirname, "scripts/play.coffee");
 
   try {
 
     var coffeescript = require("coffee-script");
+    console.log("Full file path: " + full);
     var source = fs.readFileSync(full, "utf8");
 
     coffeescript.compile(source);
@@ -79,7 +80,7 @@ var reloadAllScripts = function() {
     // modify to keep the deleteScriptCache function simple
     // loading the same npm-installed scripts multiple times (e.g. hubot-rules)
     // doesn't seem to have any negative effects
-    var scriptToDelete = Path.resolve(".", play_scripts);
+    var scriptToDelete = Path.resolve(__dirname, play_scripts);
     deleteScriptCache(scriptToDelete);
 
     loadInstalledScripts();
@@ -252,7 +253,11 @@ function scrollDown() {
 
 function showUserScriptInTextArea() {
 
-  var file = Path.resolve(".", play_scripts);
+  var file = Path.resolve(__dirname, play_scripts);
+
+  console.log("cwd: " + __dirname);
+  console.log("The file to play scripts is at: " + play_scripts);
+
   fs.readFile(file, 'utf8', function (error, script_contents) {
     if (error) {
       return console.log(error);
@@ -263,7 +268,7 @@ function showUserScriptInTextArea() {
 }
 
 function saveScripts(reload) {
-  var file = Path.resolve(".", play_scripts);
+  var file = Path.resolve(__dirname, play_scripts);
   var content = scriptArea.val();
   fs.writeFile(file, content, function () {
       if (reload) {
