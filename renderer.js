@@ -12,31 +12,14 @@ const helper = require('./helper');
 var robot = undefined;
 var scriptArea = undefined;
 
-// var CoffeeScript = require('coffee-script');
-// var compiledJS = CoffeeScript.compile("a = \"c" );
-// console.log("compiledJS: ", compiledJS);
-
 process.on('uncaughtException', function (error) {
     // Handle the error
-    console.log("YO YO YO 2");
-    console.log("My error stack: " + error.stack);
+    console.log("caught an unhandled exception");
+    console.log("Renderer.js error stack: " + error.stack);
 });
 
 
 var loadUserScripts = function() {
-
-  // var check = require('syntax-error');
-  //
-  // var file = Path.resolve(".", "scripts/play.coffee");
-  // var src = fs.readFileSync(file);
-  //
-  // var err = check(src, file);
-  // if (err) {
-  //     console.error('COFFEESCRIPT ERROR DETECTED');
-  //     console.error(err);
-  // }
-
-
 
   var scriptsPath = Path.resolve(".", "scripts");
   robot.load(scriptsPath);
@@ -66,66 +49,21 @@ function isPlayScriptValid() {
   try {
 
     var coffeescript = require("coffee-script");
+    var source = fs.readFileSync(full, "utf8");
 
-//    debugger
-     var source = fs.readFileSync(full, "utf8");
-     console.log("Source: " + source);
-//    var script = require(source);
-
-    // but this won't compile valid coffescript
     coffeescript.compile(source);
     valid = true;
     $('#script-error').hide();
 
-//    console.log("FULL: " + full);
-
-//    console.log("typeof: " + typeof(script));
-  //    console.log("here 1");
-
-      // even if the script is valid, this line throws
-      // script(robot);
-      // console.log("here 2");
-      // valid = true;
-      // $('#script-error').hide();
-
-    //  console.log("FROM ELECTRON");
-      // console.log("typeof: " + typeof(script));
-      // console.log("script: " + script);
-//      const util = require('util');
-      // var str = util.inspect(robot);
-      // console.log("THIS IS ROBOT " + str);
-
-//    debugger
-
-    //it thinks an valid script is invalid
-    // says it is a function
-    // if (typeof(script) === 'function') {
-    //
-    //   console.log("here 1");
-    //   script(robot);
-    //
-    //   console.log("here 2");
-    //   //robot.parseHelp(full);
-    //   console.log("here 3");
-    //   valid = true;
-    //   $('#script-error').hide();
-    // }
-    // else {
-    //   valid = false;
-    //   console.log("here 4");
-    //   $('#script-error').show();
-    //   console.log("Expected " + full + " to assign a function to module.exports, got " + typeof(script));
-    // }
   }
   catch(error) {
-    console.log("here 5");
+
     valid = false;
     $('#script-error').show();
     console.log("Caught an exception: Unable to load " + full + ": " + error.stack);
      return valid;
   }
 
-  console.log("here 6 and vaild is : " + valid);
   return valid;
 }
 
@@ -176,7 +114,7 @@ var loadInitialScripts = function() {
 
   } else {
 
-    console.log("there's a syntax error with your script");
+    console.log("there's a syntax error with the play script");
   }
 
 }
