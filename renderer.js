@@ -279,7 +279,7 @@ function showScriptsPane() {
     // if showing, hide
     willShowScripts = false;
     $('#right-section').hide();
-    $('#scripts-button').html('show scripts ->');
+    $('#scripts-button').html('write scripts ->');
     ipcRenderer.send('resizeMainForScripts', 400, 600);
   } else {
     // if not visible, show
