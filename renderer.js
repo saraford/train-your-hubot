@@ -276,12 +276,12 @@ function showScriptsPane() {
     // if showing, hide
     willShowScripts = false;
     $('#right-section').hide();
-    $('#scripts-button').html('write scripts ->');
-    ipcRenderer.send('resizeMainForScripts', 400, 600);
+    $('#scripts-button').html('Scripts >');
+    ipcRenderer.send('resizeMainForScripts', 600, 600);
   } else {
     // if not visible, show
     willShowScripts = true;
-    ipcRenderer.send('resizeMainForScripts', 800, 600);
+    ipcRenderer.send('resizeMainForScripts', 1000, 600);
   }
 }
 
@@ -290,7 +290,7 @@ ipcRenderer.on('showScripts' , function(event , data) {
   if (willShowScripts) {
     // finish showing the scripts pane
     $('#right-section').show();
-    $('#scripts-button').html('<- hide scripts');
+    $('#scripts-button').html('< Scripts');
   }
 });
 

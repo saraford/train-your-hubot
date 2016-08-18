@@ -5,7 +5,7 @@ body {
 
 #left-section {
   /*background-color: red;*/
-  width:400px;
+  width:600px;
   position: absolute;
   left: 0;
   height: 570px;
@@ -100,9 +100,9 @@ h1 {
 }
 
 #scripts-button {
-  position: absolute;
-  top: 10px;
-  right: 20px;
+  margin-top: 10px;
+  margin-left: 5px;
+  font-size: 0.6em;
 }
 
 #input-area {
