@@ -14,10 +14,10 @@ app.on('ready', function() {
     });
 
     mainWindow.loadURL('file://' + __dirname + '/index.html');
-    //mainWindow.webContents.openDevTools();
+
+    mainWindow.webContents.openDevTools();
 
 });
-
 
 ipcMain.on('resizeMainForScripts', function (e, width, height) {
     mainWindow.setSize(width, height);

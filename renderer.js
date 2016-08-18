@@ -2,7 +2,7 @@
 
 const $ = require('jquery');
 const ipcRenderer = require('electron').ipcRenderer;
-const play_scripts = "scripts/play.coffee";
+const play_scripts = "play.coffee";
 require('coffee-script/register');
 const fs = require('fs');
 const Path = require('path');
@@ -11,18 +11,13 @@ const TextMessage = Hubot.TextMessage;
 const helper = require('./helper');
 var robot = undefined;
 var scriptArea = undefined;
-
-// process.on('uncaughtException', function (error) {
-//     // Handle the error
-//     console.log("caught an unhandled exception");
-//     console.log("Renderer.js error stack: " + error.stack);
-// });
-
+var remote = require('electron').remote;
+var app = remote.require('electron').app;
+const userScriptsPath = Path.resolve(app.getPath('documents'), "myHubotScripts");
 
 var loadUserScripts = function() {
 
-  var scriptsPath = Path.resolve(__dirname, "scripts");
-  robot.load(scriptsPath);
+  robot.load(userScriptsPath);
 
 };
 
@@ -34,6 +29,9 @@ var loadInstalledScripts = function() {
   var pugmeScriptPath = Path.resolve(__dirname, "node_modules/hubot-pugme/src")
   robot.load(pugmeScriptPath);
 
+  var scriptsPath = Path.resolve(__dirname, "scripts");
+  robot.load(scriptsPath);
+
 };
 
 
@@ -44,7 +42,7 @@ function isPlayScriptValid() {
   console.log("testing play scripts");
   var valid = false;
 
-  var full = Path.resolve(__dirname, "scripts/play.coffee");
+  var full = Path.resolve(userScriptsPath, "play.coffee");
 
   try {
 
@@ -80,7 +78,7 @@ var reloadAllScripts = function() {
     // modify to keep the deleteScriptCache function simple
     // loading the same npm-installed scripts multiple times (e.g. hubot-rules)
     // doesn't seem to have any negative effects
-    var scriptToDelete = Path.resolve(__dirname, play_scripts);
+    var scriptToDelete = Path.resolve(userScriptsPath, play_scripts);
     deleteScriptCache(scriptToDelete);
 
     loadInstalledScripts();
@@ -103,9 +101,6 @@ var loadInitialScripts = function() {
 
   // first test if it is a valid script
   // if there are errors, kick back to user to fix
-  // unfortunately this means we can't load default.coffee on launch
-  // if there are issues with play.coffee since robot.load wants a dir
-  // TODO in the future have a separate node for the default.coffee scripts
   if (isPlayScriptValid()) {
     console.log("play scripts are valid");
 
@@ -198,9 +193,7 @@ const wireUpButtons = () => {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  wireUpButtons();
-  startHubot();
-  showUserScriptInTextArea();
+  createLocalHubotScripts();
 });
 
 function startHubot() {
@@ -253,9 +246,8 @@ function scrollDown() {
 
 function showUserScriptInTextArea() {
 
-  var file = Path.resolve(__dirname, play_scripts);
+  var file = Path.resolve(userScriptsPath, play_scripts);
 
-  console.log("cwd: " + __dirname);
   console.log("The file to play scripts is at: " + play_scripts);
 
   fs.readFile(file, 'utf8', function (error, script_contents) {
@@ -268,7 +260,7 @@ function showUserScriptInTextArea() {
 }
 
 function saveScripts(reload) {
-  var file = Path.resolve(__dirname, play_scripts);
+  var file = Path.resolve(userScriptsPath, play_scripts);
   var content = scriptArea.val();
   fs.writeFile(file, content, function () {
       if (reload) {
@@ -301,3 +293,35 @@ ipcRenderer.on('showScripts' , function(event , data) {
     $('#scripts-button').html('<- hide scripts');
   }
 });
+
+function createLocalHubotScripts() {
+
+  fs.exists(userScriptsPath, (exists) => {
+    if (exists) {
+      wireUpButtons();
+      startHubot();
+      showUserScriptInTextArea();
+    }
+    else {
+      console.log("doesn't exist, so creating");
+      fs.mkdir(userScriptsPath, () => {
+
+        var sourceFile = Path.resolve(__dirname, "initialPlayCoffee.txt");
+        var sourceContents = fs.readFileSync(sourceFile, "utf8");
+
+        var destinationFile = Path.resolve(userScriptsPath, "play.coffee");
+
+        // create the file with this content
+        fs.writeFile(destinationFile, sourceContents, 'utf8', (err) => {
+          if (err) {
+            console.log("unable to write play.coffee to " + userScriptsPath + " error: " + err);
+          } else {
+            wireUpButtons();
+            startHubot();
+            showUserScriptInTextArea();
+          }
+        });
+      });
+    }
+  });
+}

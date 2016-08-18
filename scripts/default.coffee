@@ -17,18 +17,18 @@ module.exports = (robot) ->
 
   robot.respond /HELP$/i, (msg) ->
     msg.send "Here's what you can ask me:\n
-      >Hubot ping\n
-      >Hubot open the (type of) doors\n
-      >Hubot pug me\n
-      >Hubot pug bomb <number>\n
-      >Hubot how many pugs are there\n
-      >Hubot the rules\n
-      >Hubot the rules apple\n
+      hubot ping\n
+      hubot open the (type of) doors\n
+      hubot pug me\n
+      hubot pug bomb <number>\n
+      hubot how many pugs are there\n
+      hubot the rules\n
+      hubot the rules apple\n
       \n
       Here's what you can mention\n
       \"I like pie\"\n
       \n
-      You can also upload your own scripts!"
+      You can also write and upload your own scripts!"
 
 
   # lulz = ['lol', 'rofl', 'lmao']
