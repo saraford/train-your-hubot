@@ -11,3 +11,6 @@ The hubot adapter for this project can be found at https://github.com/saraford/h
 2. npm install
 3. copy the hubot-sample folder from https://github.com/saraford/hubot-electron-adapter into the train-your-hubot/node-modules folder. It's next on my todo list to have this as a npm install to avoid this step.
 4. npm start
+
+## Note
+train-your-hubot will create a myHubotScripts folder in your Documents directory.  
