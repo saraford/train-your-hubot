@@ -13,7 +13,7 @@ app.on('ready', function() {
         minWidth: 600
     });
 
-    mainWindow.loadURL('file://' + __dirname + '/index.html');
+    mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     // mainWindow.webContents.openDevTools();
 
@@ -22,8 +22,4 @@ app.on('ready', function() {
 ipcMain.on('resizeMainForScripts', function (e, width, height) {
     mainWindow.setSize(width, height);
     mainWindow.webContents.send('showScripts');
-});
-
-ipcMain.on('close-app', function () {
-    app.quit();
 });

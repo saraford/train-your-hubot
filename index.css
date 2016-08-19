@@ -1,6 +1,7 @@
 body {
   font-family:BlinkMacSystemFont, "Lucida Grande", "Segoe UI", Ubuntu;
   text-align: center;
+  overflow: hidden; 
 }
 
 #left-section {
