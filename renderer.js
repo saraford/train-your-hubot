@@ -200,7 +200,7 @@ function startHubot() {
   // adapterPath, adapterName, enableHttpd, botName, botAlias
   // adapterPath - the first parameter it is never used, hence undefined
   //debugger
-  robot = Hubot.loadBot(undefined, "sample", true, "Hubot", false);
+  robot = Hubot.loadBot(undefined, "electron", true, "Hubot", false);
   robot.adapter.once('connected', loadInitialScripts);
   robot.adapter.wireUpResponses(updateWindowWithHubotMessage);
   robot.run();
